@@ -85,8 +85,8 @@ $\ket{\psi}$ using a product basis.
 
 The point of matrix product states is now to find a way of implementing
 a variational technique for the  states $\ket{\tilde{\psi}}$
-which takes the form of \eqref{eq:schmidtdecomp} with only $D\leq r$ terms. The
-point will be to vary the basis and coefficient to minimise
+which takes the form of \eqref{eq:schmidtdecomp} with only $D\leq r$ terms. For
+given $D$ we may vary the basis and coefficients to minimise
 $||\ket{\tilde{\psi}}-\ket{\psi}||$.
 Without loss of generality we may order the coefficients $\lambda_1\geq
 \lambda_2\geq\dots \geq \lambda_r$, which allows us to calculate the minimal
@@ -234,4 +234,149 @@ each of the external indices as
 \end{tikzpicture}
 \end{center}
 %TODO  Rewatch end 
+\section{Lecture 2}
+Now the MPS is an exact representation, but given that the matrices grow
+exponentially in size in the middle of the chain, it is necessary to approximate
+the matrices. This is where the Schmidt decomposition comes in.
+\begin{remark}
+    We started from the left in our expansion; this is called
+    \emph{left-canonical} MPS or \emph{left-normalised}. This means that 
+    \[
+        \sum_{\sigma_l} {A^{\sigma_l}^\dagger A^{\sigma_l} =I
+    \]
+    This follows from 
+    \begin{align*}
+        \sum_{\sigma_l} \left(A^{\sigma_l}^\dagger A^{\sigma_l}\right)_{a_l a'_l}
+        &=\sum_{\sigma_l, a_{l-1}} (U^\dagger)_{a_l,a_{l-1}\sigma_l}
+            U_{a_{l-1}\sigma_l, a'_l}\\
+        &=\delta_{a_l,a'_l}
+    \end{align*}
+    Equivalently one can begin reshaping from right to get 
+    \[
+        \ket{\psi}=\sum_{\sigma_1\dots\sigma_l} B^{\sigma_1}\cdots
+        B^{\sigma_L}\ket{\sigma_1\dots\sigma_L}
+    \]
+Which now satisfy $\sum_{\sigma_l} B^{\sigma_l} {B^{\sigma_l}}^\dagger$.
+Finally we may do both from left and right, and meet at $l$, so get
+\emph{mixed-canonical}, where 
+\begin{align*}
+    C_{\sigma_1\cdots \sigma_L}&= A^{\sigma_1}\cdots A^{\sigma_l}
+    S B^{\sigma_{l+1}}\cdots B^{\sigma_L}
+\end{align*}
+which essentially gives us a Schmidt decomposition
+\begin{align*}
+    \ket{\psi}=  \sum_{a_l} S_{a_l,a_l} \ket{a_l}_A\ket{a_l}_B\\
+    \ket{a_l}_A&=\sum_{\sigma_1\dots\sigma_l}(A^{\sigma_1}\cdots
+    A^{\sigma_l})_{1,a_l}\ket{\sigma_1\dots\sigma_l}\\
+    \ket{a_l}_B&= \sum_{\sigma_{l+1}\dots\sigma_L} B^{\sigma_{l+1}}\cdots
+    B^{\sigma_L}){a_l,1}\ket{\sigma_{l+1}\dots \sigma_L}
+\end{align*}
+\end{remark}
+Now what we do is cut down the rank of $S$ to a managable number. This
+approximation is called \emph{compression}.
+A:  is left normalised
+B: is right normalised
+M: is 
+
+\begin{method}[Compression by SVD]
+    Matrix dimension initially $D'$.
+    Want to decrease this to dimension $D<D'$.
+    \begin{align*}
+        \sum_{\sigma_1\dots\sigma_L} A^{\sigma_1}\cdots A^{\sigma_{l-1}}
+        M^{\sigma_l} B^{\sigma_{l+1}}\cdots
+        B^{\sigma_L}\ket{\sigma_1\dots\sigma_L}
+    \end{align*}
+    Now use SVD on $M^{\sigma_l}= USV^{\dagger}$ where $S$ is of dim $D'\times
+    D'$. Keep only $D$ largest eigenvalues of $S$, to replace $M$ with
+    $\tilde{U}\tilde{S}\tilde{V}^\dagger$. Now reshape to $A^{\sigma_l}$, and
+    move through $\sigma_l$ iteratively.
+\end{method}
+\emph{Matrix product operators} (MPO)
+
+\begin{align*}
+    O&=\sum_{\sigma,\sigma'} W^{\sigma_1\sigma'_1}\dots W^{\sigma_L \sigma_L'}
+    \ketbra{\sigma}{\sigma'}\\
+     &=\sum C_{(\sigma_1\dots\sigma_L)(\sigma_1'\dots\sigma_L')}
+     \ketbra{\sigma}{\sigma'}
+\end{align*}
+where we have performed SVD to reshape $(\sigma_l,\sigma'_l)$ extract the sigma indices 
+         s1  s2
+         |   |
+    O = [ ]-[ ]-..
+         |   |
+         sp1 sp2
+
+Can apply to operator
+         \begin{align*}
+             O\ket{\psi}&=\sum_{\sigma\sigma'}
+             W^{\sigma_1\sigma'_1}M^{\sigma_1'}\dots\ket{\sigma'}
+         \end{align*}
+
+
+Graphical form
+
+ |   |   | 
+[ ]-[ ]-[ ]-          | | |
+ |   |   |       =>   o=o=o=
+ * - * - * -
+
+ \begin{example}[Heisenberg Hamiltonia]
+     \[
+         H=\sum_i^{L-1} \frac{J}{2}\left( S_i^+ S_{i+1}^- + S^-_i
+         S^+_{i+1}+\right) +J^z\sum_{i=1}^{L-1} S^z_i S^z_{i+1} - h\sum_{i=1}^L
+         S^z_i
+     \]
+     This is a $XXZ$ model
+
+     Now convert to MPO
+
+     $W_{b_{l-1}b_l}^{\sigma_l\sigma_l'}\to
+     \left(W^{[l]}_{b,b'}\right)_{\sigma_l\sigma_l'}$ a $d\times d$ matrix
+
+     \[
+     W^{[i]}=\begin{bmatrix}
+     
+     \end{bmatrix}
+ \end{example}
+ Will not describe how to find $W$, but is not hard for standard hamiltonians.
+ \subsection{Time evolution with MPS}
+Why is it interesting? Recent experimental setups have allowed us to control
+time evolution.
+Literature: TEBD algorithm G.Vidal PRL 91,147902(2003)
+t-DMRG: A Daley et all JStatMech: Theo Exp P04005(2004) 
+      : SR white and A Feighah PRL93.076401
+
+Here focus on Trotter-Suzuki decomposition.
+
+Assume XXZ model from before $H=\sum_i h_i$ where $h_i$ only depends on site $i$
+and $i+1$.
+Want to follow time evolution of state $\ket{\psi_0}$.
+Use Schrödinger equation
+\[
+    i\partial_t\ket{\psi}=H\ket{\psi} \longrightarrow U(t,t+\Delta
+    t\ket{\psi(t)}=e^{-i\Delta t H} \ket{\psi(t)}
+\]
+
+Want to reach time $t$, discretize to time steps $\Delta t$, so that $t=N\Delta
+t$, where $\Delta t$ compared to the energy scale. 
+\begin{remark}
+    In practice need $\Delta t \lesssim \frac{1}{100 E_\mathrm{char}}$
+\end{remark}
+Perform Trotter Suzuki decomposition of time evolution operator 
+
+\[
+    e^{-i\Delta t H} \simeq \prod_{j\in \text{odd}} e^{-ih_j\Delta t}\prod_{j\in
+    \text{even}} e^{-i h_j\Delta t} + \O(\Delta t^2)
+\]
+error from non-commutitativty of $h_i$ and $h_{i+1}$.
+\begin{remark}
+    Typically one uses second order 
+\[
+
+    e^{-i\Delta t H} \simeq \prod_{j\in \text{odd}} e^{-ih_j\Delta t/2}\prod_{j\in
+    \text{even}} e^{-i h_j\Delta t} \prod_{j\in \text{odd}} e^{-ih_j\Delta t/2}
+    +\O(\Delta t^3)
+\]
+\end{remark}
+$N$ times gives order of $N\Delta t^3=t \delta t^2$ error
 \end{document}
