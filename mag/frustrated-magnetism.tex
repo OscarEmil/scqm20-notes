@@ -1,0 +1,150 @@
+\documentclass[a4paper]{article}
+\author{Oscar Emil Sommer}
+\input{../preamble}
+\input{../macros}
+
+\fancyhead[L]{\textbf{Frustrated Magnetism}}
+
+
+\begin{document}
+
+Lectures by Claudio Castelnovo
+\section{Lecture 1}
+\subsection{Introduction}
+Aims: Brief introduction to fractionalised quasiparticles that can appear in frustrated
+magnetism.
+
+Frustrated magnetism: The inability to minimise all terms of Hamiltonian
+simultanously, cannot be described by Landau-Ginzburg theory.
+
+Has many interesting properties like
+\begin{itemize}
+    \item Degeneracy
+    \item Emergent Symmetries
+    \item Topological Order
+    \item Fractional Excitations
+\end{itemize}
+Lectures will be structured as series of examples.
+
+\subsection{Conventional Magnetism}
+We have crystal structure, lattice $\Lambda$ and each site has magnetic moments
+$\vb{\mu}_i$. We shall take them to be along 1 axis, and so assume they are of
+Ising type with only nearest neigbour interactions.
+\[
+    H=-J\sum_{\braket{ij}} \sigma_i\sigma_j
+\]
+where $J>0$ for ferromagnetic interactions, which favour alignment. This is
+combatted by entropy, which favours random $\{\sigma_i\}$.
+The interactions come about from exchange couplings of neighbouring
+electrons\footnote{Limit of Hubbard model? Must investigate}
+
+low sym ~1 High symm phase
+--------*-------> T/J
+
+Has $\Z_2$ symmetry in high temperature phase and this symmetry is
+\emph{broken}.
+\begin{remark}
+    Each individual energy term is minimised
+\end{remark}
+
+\begin{example}[Spin correlations]
+How do we compute correlations? Define partition function
+\[ 
+    Z=\sum_{\{\sigma_i\}} \e^{-\beta H}
+\]
+which then allows us to compute correlation
+
+\[
+    \braket{\sigma_l\sigma_m}=\frac{1}{Z}\sum_{\{\sigma_i\}}\sigma_l\sigma_k\e^{\beta
+    J\sum_{\braket{ij}} \sigma_i\sigma_j}
+\]
+At high temperature  $\beta J\ll 1$, so that the lowest terms in the taylor
+expansion of the probality density dominate, and we obtain 
+\[
+    \braket{\sigma_l\sigma_k}\simeq\frac{2\beta J_{lm}}{Z}
+\]
+where $J_{lm}=\begin{cases}J &\text{$l,m$ are n.neighbours}\\
+0&\text{otherwise}\end{cases}$ 
+These correlations are \emph{trivial} correlation as the spins only reflect the
+hamiltonian.
+\end{example}
+
+For conventional magnetism, the behaviour is therefore trival everywhere except
+near critical point. At low temperature the order is trival; If $\sigma=1$ then
+most likely all other $\sigma$ will also be $1$. At high temperature the
+correlations are trivial $\braket{\sigma\sigma}\sim\beta H$, where the part of
+the hamiltonian refered to is the interaction of the two appropriate spins. The
+kind of interesting behaviour seen near critical point
+\begin{itemize}
+    \item Spin correlations decay with power law
+    \item Scale invariance
+    \item Critical scaling of physical properties with distance from C.P. in
+        parameter space. ($C_V\sim|T-T_C|^\alpha$, $\braket{\sigma}\sim
+        B^{1/\delta}$)
+    \item Universality
+\end{itemize}
+
+\begin{example}[Quantum phase transitions]
+    Now assume quantum spins and add a transverse field $\Gamma$ (Quantum phase
+    transition arises due to non-commutativity of terms) 
+    \[
+        H=-J\sum_{\braket{ij}}\sigma_i^Z\sigma_j^Z +\Gamma \sum_i\sigma_i^X.
+    \]
+   Now 2D parameter space of $T,\Gamma$. phase boundary of ordered and
+   disordered phases is now a line, and at $T=0$, we have a Quantum critical
+   point. Fluctations near the quantum critical point take much different form
+   from usual, as it will be of $d+1$ dimensions in contrast to the classical
+   which is at $d$ dimensions. These fluctations spreaed further into the phase
+   diagram into a cone in the quantum critical regime.
+\end{example}
+Conventional magnetism has trivial correlations apart from critical behaviour.
+Relies on being minimise all energy terms at the same time.
+Instead can have competition between lattice geometry and interaction terms.
+\subsection{Frustrated Magnetism}
+
+\[ H=\sum_{ij}H_{ij}\]
+such that not all $H_{ij}$ can be minimised at the same time.
+This supresses the critcal temperature significantly $T_c/J\ll 1$, where $J$ is
+characteristic scale of $H_{ij}$, and in the
+region $T_c<T\lesssim J$ non trivial region. One can pseudo quantify the degree
+of frustration by the ratio $f=\frac{T_c}{|\Theta_{CW}|}$, of the critical
+temperature and the Curie-Weiss temperature. This region is a new phase called a \emph{spin
+liquid}.
+\begin{remark}[Properties of Spin liquids]
+    Spin liquids can both be quantum and classical show 
+    \begin{itemize}
+        \item No long range order
+        \item Strong correlations, as $T<J$
+        \item Have large degeneracy/entanglement
+        \item Emergent Symmetries
+        \item Topological order
+        \item Fractionalised Quantum particles.
+    \end{itemize}
+    and examples of systems exhibiting it include Triangular Ising AFM4, 8-vertex
+    model, and the Quantum Toric Code. Note that the frustration does not always
+    lead to these properties, but it does allow them. 
+    Note that it is only bounded by a critical point on the lower bound in classical
+    case, hence it is technically a conventionally defined states. This may not
+    be the case for quantum systems, where the system may be
+    gapped\footnote{expand on this point?}. Note theoretical models can be
+    \emph{fully frustrated} with $f=0$, though these are not physical, as they
+    have finite 0 temperature entropy.
+\end{remark}
+\begin{example}[Triangular Ising AFM]
+    A completely classical anti-ferromagnetic model 
+    \[ H= H\sum_{\braket{ij}}\sigma_i\sigma_j\]
+    with $J>0$. On triangular lattice, cannot minimise all terms. Consider
+    a triangle; We can at most have 2 anti-ferromagnetic bonds for every 3, and
+    once two spins have been chosen, have degeneracy for the choice of the
+    third. These are \emph{2-1 triangles} and can be used to tile the whole
+    lattice. In particular, can label the ferromagnetic bond of each triangle by
+    a dimer going between the centers of the two triangles which the bond
+    touches. This gives a $2:1$ mapping of spins to dimers,called \emph{the
+    dimer model}.
+    %TODO:Create figures
+    \begin{remark}
+    For square lattice, can easily minimise all energy terms by making them
+    anti-ferromagnetic.
+    \end{remark}
+\end{example}
+\end{document}

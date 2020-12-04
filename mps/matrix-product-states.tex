@@ -1,4 +1,3 @@
-
 \documentclass[a4paper]{article}
 \author{Oscar Emil Sommer}
 \input{../preamble}
@@ -242,11 +241,11 @@ the matrices. This is where the Schmidt decomposition comes in.
     We started from the left in our expansion; this is called
     \emph{left-canonical} MPS or \emph{left-normalised}. This means that 
     \[
-        \sum_{\sigma_l} {A^{\sigma_l}^\dagger A^{\sigma_l} =I
+        \sum_{\sigma_l} {A^{\sigma_l}}^\dagger A^{\sigma_l} =I
     \]
     This follows from 
     \begin{align*}
-        \sum_{\sigma_l} \left(A^{\sigma_l}^\dagger A^{\sigma_l}\right)_{a_l a'_l}
+        \sum_{\sigma_l} \left({A^{\sigma_l}}^\dagger A^{\sigma_l}\right)_{a_l a'_l}
         &=\sum_{\sigma_l, a_{l-1}} (U^\dagger)_{a_l,a_{l-1}\sigma_l}
             U_{a_{l-1}\sigma_l, a'_l}\\
         &=\delta_{a_l,a'_l}
@@ -334,9 +333,8 @@ Graphical form
      \left(W^{[l]}_{b,b'}\right)_{\sigma_l\sigma_l'}$ a $d\times d$ matrix
 
      \[
-     W^{[i]}=\begin{bmatrix}
-     
-     \end{bmatrix}
+     W^{[i]}=
+ \]
  \end{example}
  Will not describe how to find $W$, but is not hard for standard hamiltonians.
  \subsection{Time evolution with MPS}
@@ -372,11 +370,15 @@ error from non-commutitativty of $h_i$ and $h_{i+1}$.
 \begin{remark}
     Typically one uses second order 
 \[
-
     e^{-i\Delta t H} \simeq \prod_{j\in \text{odd}} e^{-ih_j\Delta t/2}\prod_{j\in
     \text{even}} e^{-i h_j\Delta t} \prod_{j\in \text{odd}} e^{-ih_j\Delta t/2}
     +\O(\Delta t^3)
 \]
 \end{remark}
 $N$ times gives order of $N\Delta t^3=t \delta t^2$ error
+
+\begin{remark}
+    MPS vs Polynomial with monte carlo for ground state. MPS deals better with
+    fermion sign problem and frustrated systems.
+\end{remark}
 \end{document}
