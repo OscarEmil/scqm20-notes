@@ -130,21 +130,185 @@ liquid}.
     \emph{fully frustrated} with $f=0$, though these are not physical, as they
     have finite 0 temperature entropy.
 \end{remark}
-\begin{example}[Triangular Ising AFM]
-    A completely classical anti-ferromagnetic model 
-    \[ H= H\sum_{\braket{ij}}\sigma_i\sigma_j\]
-    with $J>0$. On triangular lattice, cannot minimise all terms. Consider
-    a triangle; We can at most have 2 anti-ferromagnetic bonds for every 3, and
-    once two spins have been chosen, have degeneracy for the choice of the
-    third. These are \emph{2-1 triangles} and can be used to tile the whole
-    lattice. In particular, can label the ferromagnetic bond of each triangle by
-    a dimer going between the centers of the two triangles which the bond
-    touches. This gives a $2:1$ mapping of spins to dimers,called \emph{the
-    dimer model}.
-    %TODO:Create figures
-    \begin{remark}
-    For square lattice, can easily minimise all energy terms by making them
-    anti-ferromagnetic.
-    \end{remark}
+\subsection{Example: Triangular Ising AFM (Both Lecture 1 and 2)}
+A completely classical anti-ferromagnetic model 
+\[ H= J\sum_{\braket{ij}}\sigma_i\sigma_j\]
+with $J>0$. On triangular lattice, cannot minimise all terms. Consider
+a triangle; We can at most have 2 anti-ferromagnetic bonds for every 3, and
+once the ferromagnetic bond has been chosen, there is two-fold spin
+degeneracy. These are \emph{2-1 triangles} and can be used to tile the whole
+lattice. 
+
+\begin{remark}
+For square lattice, can easily minimise all energy terms by making them
+anti-ferromagnetic.
+\end{remark}
+In particular, can label the ferromagnetic bond of each triangle by
+a \emph{dimer} going between the centers of the two triangles which the bond
+touches. This gives a $2:1$ mapping of spins to dimers,called \emph{the
+dimer model}. The centers of the triangular form a honeycomb \emph{dual
+lattice} which is where the dimers live. Low energy state has one dimer touching
+each center. Can also have high energy excitation with 3 ferromagnetic bonds,
+and so 3 dimers touching a center.
+
+To minimise energy, we need exactly one dimer to touch each center, which is
+possible at least one way. In fact there are many such ways; take any
+closed (or ending at the boundary of your lattice) path of alternating
+dimers and non-dimers, and reverse whether each connection is a dimer or
+not. This generates an equivalent ground state. Given the number of such
+possible paths, the total ground state degeneracy is hence exponential in
+the lattice size; so the ground state entropy is exponential in the number
+of spins. This is a \emph{fullly frustrated system}. Note there is a way to
+solve for the degeneracy exactly in the thermodynamic limit.
+
+\begin{definition}[Full frustration]
+A fully frustrated system has an exponential (in system size) number of equivalent ground
+states.
+\end{definition}
+
+Now we can reformulate again in a flux language. Divide honeycomb lattice into
+2 sublattices $A$ and $B$. Let all dimers carry 2 flux units; for $A$ they go
+into $B$, and for $B$ they emerge from $A$. The remaining lines carry 1 flux
+unit so as to make the fluxes divergenceless. We may therefore think of our
+system as a discretised divergenceless field, like that in magnetostatics, which
+has an \emph{emergent Gauge Symmetry} (Coulomb phases) [Henley, Ann.Rev.Cond.Mat.2010]. We know how to handle
+correlators for the magnetostatic case, so if we can back propagate, we may
+solve our original problem. From Monte-Carlo simulations, this works at long distances!
+
+Note that we have had an emergent Gauge Symmetry because we have effectively
+remove a large portion of the high-excitation states. This reduced statespace
+now has a new emergent symmetry. This is completely different from the
+mechanism of symmetry breaking.
+%TODO:Create figures
+
+Can we explicitly write Hamiltonian in Dimer Language?
+\begin{align*}
+    H&=+J\sum_{\braket{ij}}\sigma_i\sigma_j\\
+     &=H_0
+\end{align*}
+Is constant in Dimer Language for $2-1$ triangle.  
+
+For any biparte lattice, can place dimers to get an emergent Electromagnetic
+gauge symmetry. 
+
+Can we have resonating dimers? Yes Rokhsar-Kivelson model.
+\section{Lecture 2}
+\subsection{8 Vertex model}
+Simple model for discussing excitations. Classical model of ising spins with Hamiltonian
+(note on figures, red is up, blue is down). The lattice sites are $S$, the spin
+sites will be $i,j$, and center of plaquetes will be $P$. The Hamiltonian is 
+\[
+    H=-\lambda \sum_{S}\prod_{i\in S}\sigma_i
+\]
+with $\lambda>0$.
+So product of $4$ spins sorrounding each site. This makes the model less
+physical, as it is a four body interaction.
+
+The lowest energy state $\prod_{i\in S} \sigma_i=+1$, which there are 8 possible
+minimal states per vetex (Hence 8 vertex model). In total there is exponentially
+many ways of arranging them on lattice, so ground state entropy is finite. 
+\begin{example}
+    Can you find exact degeneracy?
 \end{example}
+Note there is complete $\Z_2$ symmetry.
+
+\begin{example}[Pauling's estimate of degeneracy]
+    Number of ground states can be estimated as 
+    \[
+        N_\mathrm{GS}=\text{Number of states}\times \text{reduction
+            factor}^{\text{Number of terms in hamiltonian}}=
+        2^N\cdot\left(\frac{8}{16}\right)^{N/2}
+    \]
+    So entropy is $\sim \frac{N}{2}\ln 2$. This is a usually an informative
+    estimate. What does it neglect? Correlations between constraints, means that
+    we overcount.
+\end{example}
+It turns out that this estimate is exact as correlations are zero length in the
+ground state.
+
+Can do better! For any plaquette flip all spins sorrounding it; this flips two
+spins for all vertices. This generates a new ground state! We can start with the
+ground state with all spin up. Now we can flip any of the $N/2$ plaquettes to
+generate all possible ground states. In total $2^{N/2}$ possible operations, but
+they are not always independent. For example, assuming periodic boundary
+conditions, flipping all all but one plaquette is equivalent to flipping that
+plaquette, so there is a total of $2^{N/2-1}$. There are two further independent
+operations, called \emph{winding loop flips}, which flips horisontal or vertical
+lines of spins. These give exactly $2^{N/2+1}$ ground states.
+
+The exactness of our estimate, the is due to a coincidence due to zero range
+correlations.
+
+\begin{align*}
+    \braket{\sigma_l\sigma_m}_{\mathrm{GS}}\simeq \sum_{\{\sigma_i\}}
+    \sigma_l\sigma_m\\
+    &=\sum_{\{\sigma_i\}}
+    \frac{1}{2}\left[\sigma_l\sigma_m+\tilde{\sigma}_l\tilde{\sigma}_m \right]\\
+    &=0
+\end{align*}
+where the tilde are obtained by filpping the plaquette that includes $l$ and not
+$m$.
+This is not a totally trivial model though. In particular, there are
+\emph{topological correlations} of \emph{Wilson loops}. In particular, let
+$\gamma_{h,v}$ be horisontal or vertical loops of spins, passing through
+plauqetes. The product of spins
+along the lines 
+\[ \Gamma_{h,v}=\prod_{i\in\gamma_{h,v}} \sigma_{i}=\pm 1\]
+This is invariant under plaquette flips, but only observable if you know all
+spins along lines. This is non-local order, which divides  the config space into
+4 topological sectors. Note that it does not matter which line we choose; only
+the winding number matters.
+\subsubsection{Excitations}
+If we flip a single spin we create two excited vertices. Now can move these
+around independently by the plaquette flip operations. Now the creates a string,
+which  costs energy on at the end points. However, we can move the string around
+without energy cost, and is not actually detectible. Hence we have
+\emph{fractionalised} our spins into two excitations.
+
+\begin{example}[Conventional vs frustrated magnetism]
+    Conventional: Excitations are domain walls
+    Frustrated are point like QP on random walks, which have pair
+    creation/annihalation.
+\end{example}
+\subsection{The Quantum Toric Code}
+Now put spin-$1/2$ on each bond of a 2D square lattice. Let $S$ be all spins
+around a vertex and $P$ all spins around a Plaquette. Now define operators
+\begin{align*}
+    A_S&=\prod_{i\in S} \sigma_{i}^z\\
+    B_P&=\prod_{i\in P} \sigma_i^x
+\end{align*}
+Now $B_P$ effectively implements the plaquette flips from before. Let the
+Hamiltonian be
+\[
+    H=-\Delta_S\sum_S A_S - \Delta_P\sum_P B_P
+\]
+with both constants $\Delta_{S,P}>0$. All $A,B$ commute, so in fact the ground
+state is eigenstate of all $A,B$. Hence the ground state satisfies
+\[
+    A_S\ket{\phi_0}=B_P\ket{\phi_0}=\ket{\phi_0}
+\]
+Now the ground state can be found as as a superposition of all ground states of
+$A$; and these can be built of $\ket{1\dots1}$ by application of $B_p$. So if we
+project out $-1$ eigenvalues of all $B_P$, we obtain the ground state
+\[
+    \ket{\phi_0} \sim \prod_P (1+B_P)\ket{1\dots1}
+\]
+Is the ground state of unique? No!
+Think about the winding loop flips from the classical case. Let $\gamma_{h,v}$
+be line of spins along edge (note different convention to classical case), and
+let
+\[ \Gamma_{h,v}=\prod_{i\in \gamma_{v,h}}\sigma_i^x\]
+These comute with $A,B$ so they are simultanously diagonalisable and have
+eigenvalues $\pm 1$. Hence they define $2^2=4$ ground states
+$\ket{\phi_0^{(m_h,m_v)}}$. These $m_{h,v}$ are \emph{topological quantum
+numbers}! The $\Gamma$ are called \emph{Wilson loop operators}. It is not
+possible to locally distinguish between topological sectors.
+
+Now define line through plaquettes and spins $\tilde{\gamma}_{h,v}$, and define 
+\[\tilde{\Gamma}_{h,v}=\prod_{i\in \tilde{gamma}_{h,v}}\sigma_i^z\]
+These also commute with $A,B,H$ but not with $\Gamma_{h,v}$. Rather they
+anti-commute! The information
+encoded by
+$(\Gamma_h,\tilde{\Gamma}_v)$ and $(\Gamma_{v},\tilde{\Gamma}_h)$ are equivalent
+to a spin-$1/2$ algebra; hence the toric code GS encodes 2 toplogical qubits.
 \end{document}
