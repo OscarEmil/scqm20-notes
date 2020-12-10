@@ -304,11 +304,126 @@ $\ket{\phi_0^{(m_h,m_v)}}$. These $m_{h,v}$ are \emph{topological quantum
 numbers}! The $\Gamma$ are called \emph{Wilson loop operators}. It is not
 possible to locally distinguish between topological sectors.
 
-Now define line through plaquettes and spins $\tilde{\gamma}_{h,v}$, and define 
+Now define line through plaquettes and spins $\tilde{\gamma}_{h,v}$, and
+corresponding operators
 \[\tilde{\Gamma}_{h,v}=\prod_{i\in \tilde{gamma}_{h,v}}\sigma_i^z\]
-These also commute with $A,B,H$ but not with $\Gamma_{h,v}$. Rather they
-anti-commute! The information
+These also commute with $A,B,H$ but not with $\Gamma_{v,h}$. Rather they
+anti-commute! ($[\tilde{\Gamma}_h,\Gamma_h]=[\tilde{\Gamma}_v,\Gamma_v]=0$)
+The information
 encoded by
 $(\Gamma_h,\tilde{\Gamma}_v)$ and $(\Gamma_{v},\tilde{\Gamma}_h)$ are equivalent
 to a spin-$1/2$ algebra; hence the toric code GS encodes 2 toplogical qubits.
+\subsection{Toric code excitations}
+Excitations are plaquettes where $A_s=-1$ or $B_p=-1$, which are point-like
+quasiparticles. Act with $\sigma^x_i$ operator flips $\sigma_i^z$  eigenvals, so
+creates two deconfined $A_s=-1$ stars. Commutes with $B_p$, so no $B_p$
+excitations. Now could also act with $\sigma_i^z$ flips $\sigma_i^x$ eigenvals,
+so creates to deconfined $B_p=-1$ excitations, while leaving all the star
+excitations unaffected. Note that these excitations live at different places;
+plaquettes (or visons) or stars (or spinons).  Individually, they have the same
+properties as classical 8-vertex case, hence they are bosons. 
+
+Their mutual statistics are very interesting however, as they have \emph{mutual
+fractional statistics}. In particular if a spinon circles a visons, this induces
+a $-1$ phase! When put together, they behave as half a fermion, called
+a \emph{semion}.  Note this is different from the fermion case, since fermions
+would pick up two $-1$ phase changes, which in total is no phase at all.
+
+Note this is the same behaviour we would expect if the spionons were electrons,
+and the visons were particles of $\pi$ magentic flux.
+
+How do we see this? A state with spinons at the end of strings $\gamma_s$
+and visons at the ends of$\tilde{\gamma}_p$ is $\ket{\psi_1}=\left(\prod_{i\in \gamma_s}
+\sigma_i^x\right)\left(\prod_{i\in\tilde{\gamma}_p}
+\sigma_i^z\right)\ket{\psi_0}$.
+Now define a closed path $\gamma_c$ intersecting the end of $\gamma_s$ and circling the
+vison. Transporting the spinon around the this path gives a new state
+$\ket{\psi_2}=\left(\prod_{i\in \gamma_c} \sigma_i^x\right)\ket{\psi_1}$. This
+state has the same excitations in the same place, but the paths connecting them
+with their partners are different.
+
+\begin{align*}
+    \ket{\psi_2} &=\left(\prod_{i\in \gamma_c} \sigma_i^x\right)\left(\prod_{i\in \gamma_s}
+\sigma_i^x\right)\left(\prod_{i\in \tilde{\gamma}_p} \sigma_i^z\right) \ket{\psi_0}\\
+                 &=- \left(\prod_{i\in \gamma_s}
+                     \sigma_i^x\right)\left(\prod_{i\in \tilde{\gamma}_p}
+\sigma_i^z\right)\left(\prod_{i\in \gamma_c} \sigma_i^x\right) \ket{\psi_0}\\
+                 &=-\ket{\psi_1}
+\end{align*}
+As the the closed loop operator is identity on the ground state, as it is a product of
+$B_p$. The anti-commutativity
+arises because the new string bewteen the spinons intersect the vison string at
+a single spin, and $\sigma^x_i,\sigma_i^z$ anti-commute.
+
+In summary, the visons and spinons behave as semions, analogous to electrons and
+magentic $pi$ fluxes. However, it should be noted that these excitations are
+\emph{completely static}! We can add dynamics with perturbations, such as transverse fields
+\[ 
+    H=-\Delta_s\sum_sA_s + h_s\sum_i\sigma_i^x -\Delta_p\sum_p B_p +h_p\sum_i \sigma_i^z
+\]
+Note that the ground state is stable for this hamiltoninian as long as
+$h_s<\Delta_s$ and $h_p<\Delta_p$.
+
+Note semionic behaviour is only possible in $2D$ for point defects. In 3D need
+eg. line/loop defects.
+\section{How can we probe Quantum spin liquid?}
+\begin{itemize}
+    \item Entanglement (not experimentally visible to date)
+    \item Topological degeneracy (possibly in the form of edge modes)
+    \item fractionalised quasiparticles/fractional quantum numbers/statistics.
+        (More promising!)
+\end{itemize}
+Consider the Toric code in transverse field at finite temperature
+
+
+0 $h_p$$\Delta_p$ $h_s$ $Delta_s$
+*----* ------* ----* ---
+At $T\to \infty$ have paramagnet. At $T\lesssim\Delta_p$ have Quantum spin
+liquid. At $h_s\lesssim T\lesssim \Delta_s$ have classical $8$-vertex model with
+excitations. If $\Delta_p\ll h_s$
+the $\Delta_p\lesssim T \lesssim h_s$ we have interesting finite $T$ regime.
+In particular the visons are thermally densely populatied 
+$\rho_v\sim e^{-\Delta_p/T}\sim 1$ and they hop incoherently.
+In contrast the spinons are sparse $\rho_s\sim e^{-\Delta_s/T}\ll1$ and hop
+coherently as $T< h_s$.
+The characteristic time scales are 
+$t_v \sim 1/T$ and $t_s\sim 1/h_s\ll t_v$ Hence we can think of it one of two
+ways
+\begin{itemize}
+    \item Static visions and spinons dynamics
+    \item Born-Oppenheimer of instant spinons and visons relaxing
+        stochastically.
+\end{itemize}
+Have a look a papers in lecture 4. 
+\subsubsection{Spinon dynamics}
+The Spinon dynamics can be modelled say with tight binding with $\pi$ fluxes in
+the background, and then average over background. Note that we see emergent
+disorder, and get weak anderson localisation. If we study
+\[
+    \braket{r_s^2}(t)\sim \begin{cases} t^2& t\ll \xi\\
+        t^{0.25} &\text{intermediate}\\
+        \mathrm{Const.}&t\to \infty
+    \end{cases}
+\]
+\subsubsection{Visons motion}
+Use Born-Oppenheimer method to find vison-spinon correlations. Spinons will
+instantly be in equilibrium.
+Have Free energy competition
+\begin{itemize}
+    \item Spinon kinetic energy favours uniform spread out wavefunction, which
+        is not localised
+    \item Vison entropy favours uniform vison distribution, which favours
+        spinons maximally locallised.
+\end{itemize}
+These create a trade-off called a \emph{correlation hole}. Spinons \emph{digs
+out} a hole  in the vison background. Typcically radius $\xi$ controlled by kinetic
+energy-entropy balance in effective free energy $F\sim
+\frac{h_s}{\xi^2}+T\xi^2\ln 2$.
+Now this gives very interesting properties 
+\begin{itemize}
+    \item Thermodynamics signatures if you can measure spinon or visons
+        correlation
+    \item Transport and response properties will be affected greatly.
+\end{itemize}
+
 \end{document}
