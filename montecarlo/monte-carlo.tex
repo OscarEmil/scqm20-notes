@@ -1,0 +1,160 @@
+\documentclass[a4paper]{article}
+\author{Oscar Emil Sommer}
+\input{../preamble}
+\input{../macros}
+
+\fancyhead[L]{\textbf{Frustrated Magnetism}}
+
+
+\begin{document}
+
+Monte Carlo for classical and quantum mechanics.
+
+These lectures will be covering strategies complementing standard treatment in
+stat physics.
+
+
+Standard setting:
+Given $H$, perform probabilistic sampling of classical $d$-dim or quantum $d+1$
+configurations and calculate $\braket{O}$.
+
+Data driven setting:
+Given set of data $D=\{\vb{x}_1,\vb{x}_2\}$, construct underlying probability
+distribution.
+
+\subsection{Important underying concepts}
+\begin{itemize}
+    \item Non-deterministic sampling of 'configurations', like spin. According
+        to their weight $P(\vb{x})=\frac{W(\vb x)}{Z}$
+    \item In Quantum integrate over space and imaginary time (temperature),
+        starting and ending in the same configuration.
+    \item Restricted Boltzmann machine: layers of ising spins (hidden and visible)
+
+    \item Markov chains: Configuration of chains: configuration at time $\ell$ depends on
+$\vb {x}_\ell$ only. This leads to correlations between $\vb{x}_\ell$ and
+$\vb{x}_{\ell+1}$. 
+\item Expectation values 
+    \[\braket{O}=\frac{1}{Z}\Tr\{O\e^{-\beta H}\}=\frac{\sum_{\vb x} O(\vb x)
+    W_{\vb x}}{\sum_{\vb x} W_{\vb{x}}}\]
+\end{itemize}
+Markov chain gives a sequence of configurations which we can use to approximate
+the true probability distribution from a frequency point of view. In particular
+we get a data set from the stationary distribution. Then can estimate 
+\[ P(\vb x)\simeq P_\mathrm{data}(\vb x)=\frac{1}{\lVert D\rVert}\sum_{\vb
+x_i\in D} \delta_{\vb x,\vb x_i}\]
+
+Now if you have bad update rule, becomes important ot think about whether monte
+carlo chain samples correlated with neighbours
+
+\[A_O(t) =\frac{\braket{O(i+t)O(i)}-\braket{O}^2}{\braket{O^2}-\braket{O}^2}\]
+Generally $A_O(t)\sim e^{-t/\tau_0}$, has characteristic decay time.  Affects
+warm up time (no correlation to initial state), and variance, but not averages.
+\subsection{Designing monte carlo updates}
+Want to find most efficient way to update, relatively uncorrelated, and must
+reach equilibrium distsribution.
+\begin{example}[Metropolis]
+    Based on \emph{detailed balance} and \emph{ergodicity}
+    Consider to configurations $\vb{x}_\mu$ and $\vb{x}_\nu$, what is transition
+    probability $T(\mu\to\nu)$ or alternatively writte $T(\nu,
+    t+1|\mu,t)=T(\nu|\mu)$.
+    Detailed balance is
+    \[ T(\nu|\mu)P_\mathrm{eq} (\vb x_\mu)=T(\mu|\nu)P_\mathrm{eq}(\vb x_\nu)\]
+    Usefull way of splitting up probability distribution
+    \[ T(\mu\to \nu)=g(\mu\to\nu)A(\mu\to \nu)=(\text{selection
+    probability})(\text{acceptance ratio})\]
+    In generalised metropolis is given by 
+    \[ A(\mu\to\nu)=\mathrm{min}\left\{
+    1,\frac{p(x_\nu)}{p(x_\mu)}\frac{g(\nu\to\mu)}{g(\mu\to \nu)}\right\}\]
+    For example ising model with random spin flip have 
+    \[ A(\mu\to \nu)=\mathrm{min}\left\{ 1,\e^{\beta(E_\nu-E_\mu)}\right\}\]
+    Another example is a restricted boltzmann machine with hidden and visible
+    states $\vb h$ and $\vb v$ with hamiltonian \[H=-\sum_{ij} W_{ij} v_ih_j
+-\sum_i b_i v_i -\sum_j c_j h_j\]
+Selection probability goes (Block Gibbs sampling) $\vb v\to\vb h\to \vb v$, has
+selection probability $p(\vb v|\vb h)=\prod_ip(v_i|\vb h)$
+where $p(v_i|\vb h)=\sigma(\sum_j W_{ij} h_j+b_i)$, then the acceptance ratio
+can be written
+
+\[A(\vb v,\vb h\to \vb v',\vb h)=\mathrm{min}\left\{ 1,\frac{p(\vb v',\vb
+h)}{p(\vb v,\vb h)}\frac{p(v|h)}{p(v'|h)}\right\}=1\]
+A good place to get into machine learning as a physicist. been replaced with
+convolution neural network
+\end{example}
+\subsection{Ergodicity}
+Starting from any $\vb x_\mu$ the MC algorithm can get to any $\vb x_\mu$ in
+a finite number of steps. This can affect many important 
+What is a $\Z_2$ gauge theory? A classical part of toric code has a double
+redundancy in the fact that can flip all spins in plaquette.
+\begin{exercise}
+    Design a MC update that are ergodic in the low-energy state of classical
+    toric code
+    \begin{enumerate}
+        \item Single spin flip Creates two spin flips  $E_\nu-E_\mu =4J$,
+            is exponentially unlikely to get accepted.
+        \item Gauge flips all spins in a star has no change in energy, can
+            always be accepted. Is this ergodic? No! Non-ergodic in topological
+            sector!
+        \item Non-local loop moves! 
+    \end{enumerate}
+\end{exercise}
+\section{Quantum Monte Carlo}
+Involves the sampling of a $d+1$ dimensional classical configuration. The extra
+dimension is imaginary time, and we need to be able sample world lines with
+positive measure. A variety of methods exists (World-line, SSE, aux.field,PIMC
+for the continuum, VMC)
+Most of these are affected by sign problem of the configurations.
+(Not VariationalMonteCarlo).
+
+What a sign problem does is that the variance becomes exponentially large in
+lattice size.
+
+QMC: What are the configurations $\vb x_i$, weights $W_{\vb x_i}$, transition
+probabilities etc.
+Will talk about  SSE
+\subsection{Stochastic Series Expansion}
+Taylor expansion of the partition function
+\[ Z=\Tr \left\{ e^{-\beta H}\right\}=\sum_\alpha\sum_{n=0}^\infty
+\frac{(-\beta)^n}{n!}\braket{\alpha|H^n|\alpha}\]
+Now insert $n-1$ resolutions of the identity between the hamiltonians
+\[
+    Z=\sum_{\{\alpha_i\}}\sum_n \frac{\beta^n}{n!}
+    \bra{\alpha_0}-H\ketbra{\alpha_1}{\alpha_1}-H\ket{\alpha_2}\dots
+\braket{\alpha_{n-1}|H|\alpha_n}\]
+where $\alpha_n=\alpha_0$.
+Strategy is importance sample from sum/traces. let $Z=\sum_\vb x W_{\vb x}$ can
+be used in MCMC. If any $W_\vb x <0$ there is a sign problem; cannot intepret
+these directly as probabilities.
+\begin{example}
+Spin $1/2$ heisenberg $H=J\sum_{\braket{ij} }\vb {S}_i\cdot \vb {S}_j=J\sum_b
+    \left[  S_{b_i}^z S_{b_j}^z+\frac12
+    \left(S^+_{b_i}S^-_{b_j}+\mathrm{h.c.}\right)\right]$
+Go into $z$ spin basis, and insert the diagonal and off-diagonal elements. Need
+all terms to be give positive contributions.
+\begin{itemize}
+    \item Diagonal sign problem can be fixed by adding a big constant to
+        hamiltonian
+    \item Off-diagonal is less trivial, as the operators may be positive or
+        negative. In 1-D is solved by the periodic boundary condition, so will
+        always have even number terms.
+    \item In 2D biparte eg square, negative signs also always occur in even numbers, so
+        no sign problem. On non-bipartite lattice can have odd number of
+        negative values.
+    \item In arbitrary dimernsion If any path can be found that takes an odd
+        number of hops to return to original configuration a sign problem will
+        occur.
+\end{itemize}
+The way of \emph{solving the sign problem} is finding a local basis rotation
+that that makes the off-diagonal matrix elements all positive.
+A good example is applying a unitary rotation on a sublattice $A$.
+\end{example}
+A \emph{Stoquastic hamiltonians} is one which all 
+Ground state wavefunction is strictly real-positive. 
+\begin{itemize} 
+    \item AFM heisenberg XY on bipartite
+    \item Bosons with unfrustrated hopping
+    \item Transverse field ising model/Rydberg atoms
+\end{itemize}
+\subsection{Ergodicity in QMC}
+How does one sample off diagonal  states?
+Remember to think about topological sectors.
+\end{document}

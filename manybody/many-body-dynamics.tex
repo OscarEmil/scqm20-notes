@@ -1,0 +1,270 @@
+\documentclass[a4paper]{article}
+
+\input{../preamble}
+\author{Oscar Emil Sommer}
+\usetikzlibrary{calc}
+\input{../macros}
+\begin{document}
+Many body Quantum dynamics by Vedika Khemani
+\section{Emergence: More is different}
+The idea of condensed matter is \emph{emergence}, coined by Anderson in 1972:
+More is \emph{different}; There are phenoma you can only see when you consider
+the collective properties of many bodies.
+
+How can we deal with $N\simeq 10^{23}$ particles? There are two key
+frameworks, Quantum statistical Mechanics and Emergent Quasiparticles.
+
+In Quantum statmech you have system interchanging particles/energy with a bath
+of much greater size. The system reaches Thermal equilbrium at late times,
+obtained from max entropy principle. Hence $\rho^S(t)\to
+\rho^S_\mathrm{eq}(T,\mu)$ and the quantitites of interest are
+$\braket{O}=\Tr\left[\rho_\mathrm{eq} O\right]$. This is built on the
+\emph{ergodic hypothesis} of chaotic systems.
+
+Quasi particles are the low energy excitations from the ground state of
+a system. In particular, these only interact weakly.
+
+\subsection{Approach to many-body physics.}
+Traditionally we study Hamiltonian time evolution with a time independent
+Hamiltonian $H(t)=H$. Recently we have modified this paradigm by interrupting
+the unitary time evolution by non-unitary measurements. Generally we study
+ground or equilibrium states, or small deviations from these at low energies.
+This has recently been changed to study dynamics of initial states that are not
+low-energy in any sense. Traditionally we study correlation functions, order
+parameters for characterizing universal phases and phase transitions, but
+recently we've moved on to Quantum entanglement, Quantum complexity etc.
+
+The focus of this seminar is the \emph{dynamics} of 
+\begin{itemize}
+    \item Strongly interacting
+    \item Isolated (Unitary time evolution), so $\rho(t+\delta
+        t)=U\rho(t) U^\dagger$.
+    \item Highly excited (No approaches based on quasiparticles)
+    \item Many body systems (spins, cold atoms, qubits, etc.)
+\end{itemize}
+
+
+An outline of the lecture is:
+\begin{itemize}
+    \item Eigenstate thermalisation hypothesis
+    \item Many body localisation: Breakdown of thermalisation, Useful picture
+        called $\ell$-bit picture
+    \item Localisation protected quantum order
+    \item Quantum Chaose and Out of time ordered commutators.
+\end{itemize}
+\begin{itemize}
+    \item Q.statmech MBL, Nadkishore Huse, Ann. Rev CMP (2015)
+    \item MBL: Abanin,Altman,Bloch, Serbyn. Rev. Mod. Phys (2019)
+    \item Thermalisation, ETH: D'Alessio,Kafri, Polkovnikov, Rigol, Adv. Phys (2016)
+    \item Localisation protected quantum order, time crystals: Khemani, Moessner,Sondhi,
+arXiv 1910.10745 (2019)
+\end{itemize}
+\begin{definition}[classes of Models]
+    Will be working with models of the following types 
+    \begin{description}
+        \item[Time ind Hamiltonians] Conserved energy, has eigenstates $U=\e^{-i
+            Ht}$.
+        \item[Floquet] Periodically driven $H(t+T)=H(t)$,
+            $U(nT)=\left[U(T)\right]^n$. Has eigenstates $\ket{\alpha}$ with
+            $U(T)\ket{\alpha}=\e^{i\alpha}\ket{\alpha}$.
+        \item[Random unitary circuits] Layers of random 1 and 2 body gates. Has
+            unitary dynamics with locality.
+    \end{description}
+\end{definition}
+
+Why are we changing approach now? Because experimentalists are designing
+artificial many-body quantum system, including ultracold atoms, superconducting
+qubits, trapped ions, cavity QED. 
+
+\section{Eigenstate thermalisation hypothesis}
+\begin{definition}
+    Can an isolated strongly interacting many body system act as its own `bath'
+    and bring its subsystems to thermal equilibirum?
+\end{definition}
+To answer the question we need to answer fundamental questions like
+What does thermal equilibrium mean in this context?
+How is thermal equilbrium reached when it is reached, and can it be avoided?
+
+The first example of a system that can be many-body localised and fail to go to
+equilibrium was Andersons 1958 paper. 
+It turns out there are two distinct possibilities: Either a system can
+thermalise or it will be many-body localised (Can also be Integrability, scars
+but these are believed to be \emph{fine tuned}). There is
+a kind of quantum phase transition between MBL and thermalised.
+
+\subsection{Thermalisation in isolation}
+Actually can have intermidate systems between MBL and thermalising. 
+Under unitary time evolution system \emph{remembers} all details, as
+$\ket{\psi(t)}=U(t)\ket{\psi_0}$ is reversible. In a thermalising system the
+memory gets \emph{scrambled} into completely non-local degrees of freedom. So
+even if it is formally reversible, in practice we can only probe small local
+subsystems. These subsystems $A$ of $A\cup B$ can therefore lose memory of its
+initial conditions. A thermal state is a state $\rho_A=\Tr_B \rho_{AB}$ which in
+the limit of large system $|A\cup B|\to \infty$ looks like an equilibrium state
+with the bath traced out $\rho_A\to \Tr_B
+\rho_\mathrm{eq} (T,\mu)$.
+\subsection{Equilibrium states and conservation laws}
+What is the right equilibrium state for the subsystems to thermalise to? There
+is no reservoir, so which conserved quantities are interchanged? For systems
+with only energy conservation it would be Grand Canonical Ensemble
+$\rho_G=\frac{1}{Z} \e^{-\beta H}$, with energy and particle number it would be
+the grand canonical ensemble $\rho_\mathrm{GC}=\frac{1}{Z}\e^{-\beta(H-\mu N)}$,
+and in general could have an arbitrary number of conserved quantities like
+integrable systems, where $\rho_\mathrm{GGE}=\frac{1}{Z}\e^{-\beta(H-\mu_1
+N_1-\mu_2 N_2\dots)}$. Note that not all conserved operators should be accounted
+for. 
+\begin{example}
+    For any time independent hamiltonian $H$ the eigenstates $\ket{\alpha}$
+    produce an exponential number of conserved operators through there
+    projectors $P_\alpha=\ketbra{\alpha}{\alpha}$, as these commute with the
+    hamiltonian $[H,P_\alpha]=0$. These projectors are not local in any sense.
+\end{example}
+The only operators we include are the superposition of local operators $N=\sum_i
+c_i O_i$. The notion of locality is not rigoursly defined, and depend on what
+kind of observables are. Examples could be finite range, exponentially decaying,
+power law decaying etc.
+
+What fixed the lagrange multipliers? There is no reservoir to fix $\beta$ etc.
+In fact it will be overall density of your conserved quantity. So if start with
+$\rho_0$, then $\rho_0(t)=U\rho_0^{AB} U^\dagger$ to reach thermal equilibrium
+we need that 
+\[ \lim_{t\to infty}\lim_{|AB|\to\infty} \Tr_B \rho_0^{AB}(t)=\rho_{eq}^{(A)},
+\]
+To set $\beta$ need $\braket{E}=\Tr(H\rho_0)$, and $\Delta E
+=\sqrt{\Tr(H^2\rho_0)-\left(\Tr H\rho_0\right)^2}\propto V^\alpha$ with
+$\alpha<1$, so that $\Delta E/\braket{E}\to 0$ as volume to $\infty$. Generally
+most initial states will have $\alpha=1/2$, but may be counterexamples.
+
+\begin{example}
+    Let $H\ket{\alpha}=\alpha\ket{\alpha}$ be the eigenstates of a hamiltonian.
+    Now the time depedence of any expected value, given the initial state
+    $\ket{\psi_0}=\sum_\alpha c_\alpha \ket{\alpha}$, will be 
+    \[
+    \braket{\psi(t)|O|\psi(t)}=\sum_\alpha |c_\alpha|^2 O_\alpha
+    +\sum_{\alpha\neq\beta} c_\alpha c^*_\beta \braket{\beta|O|\alpha}
+    \e^{-i t(E_\alpha-E_\beta)}
+    \]
+    The diagonal elements is the \emph{diagonal ensemble} and is responsible of
+    the equilbrium value of the observable. There are two distinct processes at
+    play
+    \begin{description}
+        \item[Equilibration] The expectation value of operators tend toward
+            equilbrium value, as the off-diagonal ensemble loose coherence and
+            average to 0
+        \item[Thermalisation] The equilibrium values are given by the thermal
+            ensemble $\Tr O_A\rho_{AB}^\mathrm{eq}$.
+    \end{description}
+\end{example}
+\subsection{Eigenstate thermalisation hypothesis}
+If all \emph{well defined} initial states reach thermal equilibrium then
+eigenstates of $H$ must be thermal:
+\begin{align*}
+    H\ket{n}&=E_n\ket{n}\\
+    \Tr_B\ketbra{n}{n} &=\Tr_B \frac{\e^{-\beta_n H}}{Z}
+\end{align*}
+Single-eigenstates are well-defined microcanical ensemble. 
+Strong version: All states are thermal.
+Weak version: Almost all states are thermal (exceptions are scars).
+\begin{example}[How to define temperature]
+    Plot entropy or DoS  as function of energy density, will get gaussian for
+    local hamiltonian. The slope of this curve is then $\beta$. Note that
+    infinite temperature is the energy density is in  middle of the spectrum.
+\end{example}
+\subsection{Volume law entanglement}
+It is very illuminating to think of entanglement as an observable. For subsystem
+$A$, with reduced density $\rho_A=\Tr_B \rho$, then the entanglement entropy is
+$S_A=-\Tr [\rho_A\log \rho_A]$. Now ETH means that this takes on the the
+thermal value $S_A= V_a s_\mathrm{th}+..$ scaling as volume of $A$.
+Note do not need to think of $B$ as reservoir of anything, just as something to
+get entangled with! The conserved quantities are not essential. For Floquet
+systems for example, there is no conservation of energy, so
+$\rho^\mathrm{eq}_\mathrm{Floquet}\propto 1$. 
+\section{Which systems reach equilibrium?}
+Do all generic systems reach thermal equilibrium? Most do, but we are aware of
+one general exception \emph{localisation}. Occur in systems without
+translational invariance, often they are disordered, but this isn't required. 
+
+\begin{definition}
+    systems retain \emph{local} memory of initial conditions to infinitely late
+    times! 
+\end{definition}
+New kind of transition between MBL to thermalising phases. MBL can stabilise new
+kinds of non-eq order (eg time crystals)
+An experimental verification is in Choi et al. Science (2016), where atoms
+retain memory of what region of a trap they occupy.
+\subsection{What do we know about MBL transitions?}
+\begin{itemize}
+    \item Anderson: Non-interacting electrons can be localised by disorder
+        (strong in 3D, arbitrarily weak is enough in 1D and 2D)
+    \item MBL: Generalisation of anderson localisation to case of interactions
+    \item Existence of the MBL phase
+        \begin{itemize}
+            \item All orders in perturbation theory in small interaction
+                strength,in any dimension (2006)
+            \item Almost proof including non-perturbative effects in one
+                dimensional lattice models with exponentially decaying
+                interactions. (It is believed that in higher dimensions it may
+                eventually be unstable to non-perturbative effects)
+            \item Lots of open questions (possible non-perturbative
+                instabilities in higher dimensions, with longer interactions..)
+                (de Roeck, Huveneers).
+        \end{itemize}
+    \item Lots of numerical evidence of the thermal phase, but no proof
+\end{itemize}
+\begin{example}[Single-particle Anderson Localisation]
+    A simple model for the Anderson Localisation is non-interacting fermions
+    hopping in random potential
+    \[ H=\sum_i h_i c^\dagger_i c_i +J(c_i^\dagger c_{i+1} +\mathrm{h.c.}),\]
+    with $h_i\in [-W,W]$. Locator expansion $J\ll W$ means that wavefunctions
+    will be localised exponentiall around each site $|\phi(r)|^2\sim
+    e^{-r/\xi}$.
+\end{example}
+\begin{example}[Localisation with interactions]
+    Do a Jordan-Wigner transformation to a spin system (Up is occupied and down
+    is empty), and add interactions to
+    obtain hamiltonian
+    \[
+        H = \sum_i h_i\sigma_i^z +J\sum_i\left( \sigma_i^x\sigma_{i+1}^x
+            +\sigma_i^y\sigma_{i+1}^y +\sigma_i^z\sigma_{i+1}^z\right)
+    \]
+    There is a lot of numerical exploration of this system, and get a Energy
+    density vs disorder strength $W$ phase diagram. At sufficiently high
+    disorder appear to see localised phase, but a few problems with numerics.
+\end{example}
+\subsection{$\ell$-bit Picture of Many body localisation}
+MBL is sort of an emergent integrability. An integrabel system has an extensive
+number of conserved quantities. For previous model, if turn off $J=0$,
+eigenstates are just spin chains, which are not thermal, and have non-local
+correlations; they violate
+ETH. There
+is no transport, and the only dynamics is Larmor precession. This can be thought
+of as arising from the fact that we have an extensive number of constants of
+motion $\{\sigma_i^z\}$, and $[\sigma^z_i,\sigma_i^z]=0$.
+What happens when we add interactions? $H=\sum_i h_i\sigma_i^z +J\sum_i
+\boldsymbol{\sigma}_i\cdot\boldsymbol{\sigma}_{i+1}$ for $J<<W$ there is a quasi local
+unitary operator transforming $H=\sum_i \tilde{h}_i \tau_i^z +\sum_ij
+\tilde{J}_{ij}\tau_i^z\tau_j^z+\dots$, where $\tau_i^z=U^\dagger \sigma_i^z U$
+are an extensive number of conserved quantities. The special aspect is that the
+unitary transformation is \emph{quasi-local} (exponentially decay) converting from physical bits
+($p$-bits) to local bits ($\ell$-bits), so the hamiltonian is still local. The
+locality follow from the fact that the ground state is gapped, which implies
+there is a local unitary transforming from the initial ground state to the new
+ground state. The local unitary is a finite depth circuit $V$. The finite depth
+means that we may cut off the tails of our dressed operator at some finite
+length.
+\begin{example}[Ising model]
+    \[
+    H=J\sum_i Z_i Z_{i+1} + h\sum_i X_i
+\]
+In the $J=0$ limit the ground state is eigenstate of $X_i$. For $J\neq 0$ can
+deform operators $\tilde{X}_i$ to become eigenoperators of new ground state. At
+phase transition this deformation has infinite correlation length, so becomes
+useless. For MBL it is same pictur, except it is not just the ground state,
+but rather all the states for which this occurs. 
+\end{example}
+\begin{example}[Area law entanglement for MBL eigenstates]
+    In MBL generic eigenstate only area of each subsystem is entangled with rest
+    of system, so $S_A \propto \partial A$.
+\end{example}
+
+\end{document}
